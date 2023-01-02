@@ -7,23 +7,23 @@ const Statistics = ({feedbacks}) => {
   let average = feedbacks.reduce((accumulator, currFeedback) => 
       accumulator + currFeedback.clicks * currFeedback.score, 0) / total;
   let positive = feedbacks[0].clicks / total;
-
+ 
   return (  
     <div>
       <h1>Statistics</h1>
       {feedbacks.map(feedback => 
-        <Feedback name={feedback.name} clicks={feedback.clicks}/>)
+        <Statistic name={feedback.name} value={feedback.clicks}/>)
       }
-      <p>total = {total}</p>
-      <p>average = {average}</p>
-      <p>positive = {positive} %</p>
+      <Statistic name='Total' value={total}/>
+      <Statistic name='Average' value={average || 0}/>
+      <Statistic name='Positive' value={positive || 0}/>
     </div>
   );
 }
 
-const Feedback = ({name, clicks}) => {
+const Statistic = ({name, value}) => {
   return (
-    <p>{name} = {clicks}</p>
+    <p>{name} = {value}</p>
   );
 }
 
@@ -48,19 +48,19 @@ const App = () => {
 
   const feedbacks = [
     {
-      name: 'good',
+      name: 'Good',
       clicks: good,
       score: 1,
       handleClick: () => incrementValue(good, setGood)
     },
     {
-      name: 'neutral',
+      name: 'Neutral',
       clicks: neutral,
       score: 0,
       handleClick: () => incrementValue(neutral, setNeutral)
     },
     {
-      name: 'bad',
+      name: 'Bad',
       clicks: bad, 
       score: -1,
       handleClick: () => incrementValue(bad, setBad)
@@ -69,7 +69,7 @@ const App = () => {
 
   return (
     <div>
-      <h2>Give Feedback</h2>
+      <h1>Give Feedback</h1>
       {feedbacks.map(feedback => 
         <Button handleClick={feedback.handleClick} name={feedback.name}/>
       )}
