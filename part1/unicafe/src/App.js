@@ -17,20 +17,27 @@ const Statistics = ({feedbacks}) => {
   }
   return (  
     <div>
-      {feedbacks.map(feedback => 
-        <StatisticLine key={feedback.name} 
-                  name={feedback.name} 
-                  value={feedback.clicks}/>)}
-      <StatisticLine name='Total' value={total}/>
-      <StatisticLine name='Average' value={average || 0}/>
-      <StatisticLine name='Positive' value={positive || 0}/>
+      <table>
+        <tbody>
+          {feedbacks.map(feedback => 
+            <StatisticLine key={feedback.name} 
+                      name={feedback.name} 
+                      value={feedback.clicks}/>)}
+          <StatisticLine name='Total' value={total}/>
+          <StatisticLine name='Average' value={average || 0}/>
+          <StatisticLine name='Positive' value={positive || 0}/>
+        </tbody>
+      </table>
     </div>
   );
 }
 
 const StatisticLine = ({name, value}) => {
   return (
-    <p>{name} = {value}</p>
+    <tr>
+      <td>{name}</td>
+      <td>{value}</td>
+    </tr>
   );
 }
 
