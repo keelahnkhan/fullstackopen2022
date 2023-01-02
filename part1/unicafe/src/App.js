@@ -1,8 +1,29 @@
 import { useState } from "react";
 
-const Feedback = ({name, value}) => {
+const Statistics = ({feedbacks}) => {
+
+  let total = feedbacks.reduce((accumulator, currFeedback) => 
+      accumulator + currFeedback.clicks, 0);
+  let average = feedbacks.reduce((accumulator, currFeedback) => 
+      accumulator + currFeedback.clicks * currFeedback.score, 0) / total;
+  let positive = feedbacks[0].clicks / total;
+
+  return (  
+    <div>
+      <h1>Statistics</h1>
+      {feedbacks.map(feedback => 
+        <Feedback name={feedback.name} clicks={feedback.clicks}/>)
+      }
+      <p>total = {total}</p>
+      <p>average = {average}</p>
+      <p>positive = {positive} %</p>
+    </div>
+  );
+}
+
+const Feedback = ({name, clicks}) => {
   return (
-    <p>{name} = {value}</p>
+    <p>{name} = {clicks}</p>
   );
 }
 
@@ -28,17 +49,20 @@ const App = () => {
   const feedbacks = [
     {
       name: 'good',
-      value: good,
+      clicks: good,
+      score: 1,
       handleClick: () => incrementValue(good, setGood)
     },
     {
       name: 'neutral',
-      value: neutral,
+      clicks: neutral,
+      score: 0,
       handleClick: () => incrementValue(neutral, setNeutral)
     },
     {
       name: 'bad',
-      value: bad,
+      clicks: bad, 
+      score: -1,
       handleClick: () => incrementValue(bad, setBad)
     }
   ];
@@ -49,10 +73,7 @@ const App = () => {
       {feedbacks.map(feedback => 
         <Button handleClick={feedback.handleClick} name={feedback.name}/>
       )}
-      <h1>Statistics</h1>
-      {feedbacks.map(feedback => 
-        <Feedback name={feedback.name} value={feedback.value}/>)
-      }
+      <Statistics feedbacks={feedbacks}/>
     </div>
   );
 }
