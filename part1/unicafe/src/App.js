@@ -8,12 +8,19 @@ const Statistics = ({feedbacks}) => {
       accumulator + currFeedback.clicks * currFeedback.score, 0) / total;
   let positive = feedbacks[0].clicks / total;
  
+  if (total === 0) {
+    return (
+      <div>
+        <p>No feedback given</p>
+      </div>
+    );
+  }
   return (  
     <div>
-      <h1>Statistics</h1>
       {feedbacks.map(feedback => 
-        <Statistic name={feedback.name} value={feedback.clicks}/>)
-      }
+        <Statistic key={feedback.name} 
+                  name={feedback.name} 
+                  value={feedback.clicks}/>)}
       <Statistic name='Total' value={total}/>
       <Statistic name='Average' value={average || 0}/>
       <Statistic name='Positive' value={positive || 0}/>
@@ -71,8 +78,11 @@ const App = () => {
     <div>
       <h1>Give Feedback</h1>
       {feedbacks.map(feedback => 
-        <Button handleClick={feedback.handleClick} name={feedback.name}/>
+        <Button key={feedback.name} 
+                handleClick={feedback.handleClick} 
+                name={feedback.name}/>
       )}
+      <h1>Statistics</h1>
       <Statistics feedbacks={feedbacks}/>
     </div>
   );
