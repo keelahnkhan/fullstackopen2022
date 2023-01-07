@@ -2,9 +2,12 @@ import React, { useState } from 'react';
 
 const App = () => {;
   const [persons, setPersons] = useState([
-    { name: 'Arto Hellas', number: '040-123-4567'}
+    { name: 'Arto Hellas', number: '040-123-4567'},
+    { name: 'Blorp Blorpington', number: '120-208-5999'},
+    { name: 'Artobenne Blousington', number: '029-553-4666'}
   ]);
   const [newPerson, setNewPerson] = useState({name: '', number: ''});
+  const [criteria, setCriteria] = useState('');
 
   const updatePersons = (event) => {
     event.preventDefault();
@@ -36,9 +39,14 @@ const App = () => {;
     setNewPerson(person);
   }
 
+  const changeCriteria = (event) => setCriteria(event.target.value);
+
   return (  
     <div>
       <h2>PhoneBook</h2>
+      <div>
+        filter shown with <input value={criteria} onChange={changeCriteria}/>
+      </div>
       <form onSubmit={updatePersons}>
         <div>
           name: <input value={newPerson.name} onChange={changeName}/>
@@ -52,10 +60,13 @@ const App = () => {;
       </form>
       <h2>Numbers</h2>
       <div>
-        {persons.map((person) => 
-          <p key={person.name}>
-            {person.name} {person.number}
-          </p>)}
+        {persons
+          .filter((person) =>
+            person.name.toLowerCase().includes(criteria.toLowerCase().trim()))
+          .map((person) => 
+            <p key={person.name}>
+              {person.name} {person.number}
+            </p>)}
       </div>
     </div>
   );
