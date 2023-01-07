@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
+import Filter from './components/Filter';
+import PersonForm from './components/PersonForm';
+import Persons from './components/Persons';
 
-const App = () => {;
+const App = () => {
+
   const [persons, setPersons] = useState([
     { name: 'Arto Hellas', number: '040-123-4567'},
     { name: 'Blorp Blorpington', number: '120-208-5999'},
@@ -44,30 +48,15 @@ const App = () => {;
   return (  
     <div>
       <h2>PhoneBook</h2>
-      <div>
-        filter shown with <input value={criteria} onChange={changeCriteria}/>
-      </div>
-      <form onSubmit={updatePersons}>
-        <div>
-          name: <input value={newPerson.name} onChange={changeName}/>
-        </div>
-        <div>
-          number: <input value={newPerson.number} onChange={changeNumber}/>
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+      <Filter criteria={criteria} changeCriteria={changeCriteria}/>
+
+      <h3>Add a new number</h3>
+      <PersonForm newPerson={newPerson} 
+                  updatePersons={updatePersons}
+                  changeName={changeName} 
+                  changeNumber={changeNumber}/>
       <h2>Numbers</h2>
-      <div>
-        {persons
-          .filter((person) =>
-            person.name.toLowerCase().includes(criteria.toLowerCase().trim()))
-          .map((person) => 
-            <p key={person.name}>
-              {person.name} {person.number}
-            </p>)}
-      </div>
+      <Persons persons={persons} criteria={criteria} />
     </div>
   );
 }
