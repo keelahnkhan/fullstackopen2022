@@ -41,6 +41,18 @@ const App = () => {
       });
   }
 
+  const deletePerson = (id) => {
+
+    if (window.confirm()) {
+      persist
+        .remove(id)
+        .then(data => {
+          const newPersons = persons.filter(item => item.id !== id);
+          setPersons(newPersons);
+        });
+    }
+  }
+
   const changeName = (event) => {
     console.log("name changed", event.target.value);
     const person = { ...newPerson, name: event.target.value};
@@ -66,7 +78,7 @@ const App = () => {
                   changeName={changeName} 
                   changeNumber={changeNumber}/>
       <h2>Numbers</h2>
-      <Persons persons={persons} criteria={criteria} />
+      <Persons persons={persons} criteria={criteria} deletePerson={deletePerson}/>
     </div>
   );
 }

@@ -12,4 +12,9 @@ function create (newObj) {
               .then(response => response.data);
 }
 
-export default {retrieve, create};
+function remove (id) {
+  return axios.delete(`${baseUrl}/persons/${id}`)
+              .then(response => response.data);
+}
+
+export default {retrieve, create, remove};
