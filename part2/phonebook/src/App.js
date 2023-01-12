@@ -1,15 +1,17 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import Filter from './components/Filter';
 import PersonForm from './components/PersonForm';
 import Persons from './components/Persons';
 import persist from './services/persist';
+import './index.css';
+import Notification from './components/Notification';
 
 const App = () => {
 
   const [persons, setPersons] = useState([]);
   const [newPerson, setNewPerson] = useState({name: '', number: '', id: ''});
   const [criteria, setCriteria] = useState('');
+  const [notification, setNotification] = useState('');
 
   useEffect(() => {
     persist
@@ -37,6 +39,10 @@ const App = () => {
               return person;
             }));
             setNewPerson({name: '', number: '', id: ''});
+            setNotification(`Updated ${data.name}`);
+            setTimeout(() => {
+              setNotification('');
+            }, 5000);
         });
       }
       return;
@@ -52,6 +58,10 @@ const App = () => {
       .then(data => {
         setPersons(persons.concat(data));
         setNewPerson({name: '', number: '', id: ''});
+        setNotification(`Added ${data.name}`);
+        setTimeout(() => {
+          setNotification('');
+        }, 5000);
       });
   }
 
@@ -83,7 +93,8 @@ const App = () => {
 
   return (  
     <div>
-      <h2>PhoneBook</h2>
+      <h2 className='header'>PhoneBook</h2>
+      {notification && <Notification message={notification}/>}
       <Filter criteria={criteria} changeCriteria={changeCriteria}/>
 
       <h3>Add a new number</h3>
