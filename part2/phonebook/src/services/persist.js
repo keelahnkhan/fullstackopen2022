@@ -17,4 +17,9 @@ function remove (id) {
               .then(response => response.data);
 }
 
-export default {retrieve, create, remove};
+function update (person, id) {
+  return axios.put(`${baseUrl}/persons/${id}`, person) 
+              .then(response => response.data);
+}
+
+export default {retrieve, create, remove, update};

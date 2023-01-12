@@ -8,7 +8,7 @@ import persist from './services/persist';
 const App = () => {
 
   const [persons, setPersons] = useState([]);
-  const [newPerson, setNewPerson] = useState({name: '', number: ''});
+  const [newPerson, setNewPerson] = useState({name: '', number: '', id: ''});
   const [criteria, setCriteria] = useState('');
 
   useEffect(() => {
@@ -23,8 +23,22 @@ const App = () => {
   const addPerson = (event) => {
     event.preventDefault();
 
-    if (-1 !== persons.findIndex((person) => person.name === newPerson.name)) {
-      alert(`${newPerson.name} is already added to the phonebook`);
+    const dupeIdx = persons.findIndex((person) => person.name === newPerson.name);
+    if (-1 !== dupeIdx) {
+      
+      if (window.confirm(`${newPerson.name} is already added to the phonebook, replace old number?`)) {
+        console.log(newPerson);
+        persist
+          .update(newPerson, dupeIdx+1)
+          .then(data => {
+            setPersons(persons.map((person, idx) => {
+              if (idx === dupeIdx) 
+                return data; 
+              return person;
+            }));
+            setNewPerson({name: '', number: '', id: ''});
+        });
+      }
       return;
     }
 
@@ -37,13 +51,13 @@ const App = () => {
       .create(newPerson)
       .then(data => {
         setPersons(persons.concat(data));
-        setNewPerson({name: '', number: ''});
+        setNewPerson({name: '', number: '', id: ''});
       });
   }
 
   const deletePerson = (id) => {
 
-    if (window.confirm()) {
+    if (window.confirm("Are you sure you want to delete?")) {
       persist
         .remove(id)
         .then(data => {
