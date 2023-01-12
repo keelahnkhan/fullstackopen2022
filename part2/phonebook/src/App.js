@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import Filter from './components/Filter';
 import PersonForm from './components/PersonForm';
 import Persons from './components/Persons';
+import persist from './services/persist';
 
 const App = () => {
 
@@ -11,11 +12,11 @@ const App = () => {
   const [criteria, setCriteria] = useState('');
 
   useEffect(() => {
-    axios 
-      .get('http://localhost:3001/persons')
-      .then(response => {
+    persist
+      .retrieve()
+      .then(data => {
         console.log('fetching data');
-        setPersons(response.data);
+        setPersons(data);
       });
   },[]);
 
@@ -32,9 +33,8 @@ const App = () => {
       return;
     }
 
-    axios
-      .post('http://localhost:3001/persons', newPerson)
-      .then(response => response.data)
+    persist
+      .create(newPerson)
       .then(data => {
         setPersons(persons.concat(data));
         setNewPerson({name: '', number: ''});
