@@ -2,7 +2,7 @@ const PersonForm = (props) => {
 
   let newPerson = props.newPerson;
   return (
-    <form onSubmit={props.updatePersons}>
+    <form onSubmit={props.addPerson}>
       <div>
         name: <input value={newPerson.name} onChange={props.changeName}/>
       </div>

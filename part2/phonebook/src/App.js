@@ -19,7 +19,7 @@ const App = () => {
       });
   },[]);
 
-  const updatePersons = (event) => {
+  const addPerson = (event) => {
     event.preventDefault();
 
     if (-1 !== persons.findIndex((person) => person.name === newPerson.name)) {
@@ -32,9 +32,13 @@ const App = () => {
       return;
     }
 
-    const newPersons = persons.concat(newPerson);
-    setPersons(newPersons);
-    setNewPerson({name: '', number: ''});
+    axios
+      .post('http://localhost:3001/persons', newPerson)
+      .then(response => response.data)
+      .then(data => {
+        setPersons(persons.concat(data));
+        setNewPerson({name: '', number: ''});
+      });
   }
 
   const changeName = (event) => {
@@ -58,7 +62,7 @@ const App = () => {
 
       <h3>Add a new number</h3>
       <PersonForm newPerson={newPerson} 
-                  updatePersons={updatePersons}
+                  addPerson={addPerson}
                   changeName={changeName} 
                   changeNumber={changeNumber}/>
       <h2>Numbers</h2>
