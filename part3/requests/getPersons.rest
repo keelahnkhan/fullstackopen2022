@@ -1,7 +1,0 @@
-@url = localhost:3001
-###
-GET http://{{url}}/api/persons
-###
-GET http://{{url}}/info
-###
-GET http://{{url}}/api/persons/1

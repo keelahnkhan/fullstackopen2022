@@ -1,0 +1,17 @@
+@url = localhost:3001
+###
+GET http://{{url}}/api/persons
+###
+GET http://{{url}}/info
+###
+GET http://{{url}}/api/persons/1
+###
+DELETE http://{{url}}/api/persons/4
+###
+POST http://{{url}}/api/persons 
+Content-Type: application/json
+
+{
+  "name": "Keelan Tucker",
+  "number": "555-595-4440"
+}
