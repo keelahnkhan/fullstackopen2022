@@ -29,10 +29,7 @@ app.get("/api/persons", (request, response) => {
 });
 
 app.get("/api/persons/:id", (request, response) => {
-  const person = persons.find(person => {
-    console.log(person);
-    return person.id === Number(request.params.id);
-  });
+  const person = persons.find(person => person.id === Number(request.params.id));
   
   person ? response.json(person) : response.status(404).end();
 });
@@ -41,6 +38,12 @@ app.get("/info", (request, response) => {
   const date = new Date();
   response.send(`<p>Phonebook has info for ${persons.length} people</p>
     <p>${date}</p>`);
+});
+
+app.delete("/api/persons/:id", (request, response) => {
+  const newPersons = persons.filter(person => person.id !== Number(request.params.id));
+  persons = newPersons;
+  response.send(204);
 });
 
 const PORT = 3001;
