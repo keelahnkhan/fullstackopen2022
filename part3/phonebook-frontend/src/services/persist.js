@@ -1,24 +1,24 @@
 import axios from "axios";
 
-const baseUrl = 'http://localhost:3001/api';
+const baseUrl = '/api/persons';
 
 function retrieve () {
-  return axios.get(`${baseUrl}/persons`)
+  return axios.get(`${baseUrl}`)
               .then(response => response.data);
 }
 
 function create (newObj) {
-  return axios.post(`${baseUrl}/persons`, newObj)
+  return axios.post(`${baseUrl}`, newObj)
               .then(response => response.data);
 }
 
 function remove (id) {
-  return axios.delete(`${baseUrl}/persons/${id}`)
+  return axios.delete(`${baseUrl}/${id}`)
               .then(response => response.data);
 }
 
 function update (person, id) {
-  return axios.put(`${baseUrl}/persons/${id}`, person) 
+  return axios.put(`${baseUrl}/${id}`, person) 
               .then(response => response.data);
 }
 

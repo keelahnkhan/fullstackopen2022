@@ -31,6 +31,7 @@ morgan.token('body', (request) => {
   return JSON.stringify(request.body);
 });
 
+app.use(express.static(__dirname + '/build'));
 app.use(cors());
 app.use(express.json());
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body', {
