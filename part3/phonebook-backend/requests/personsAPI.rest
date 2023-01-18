@@ -6,7 +6,7 @@ GET http://{{url}}/info
 ###
 GET http://{{url}}/api/persons/63c773ca998e2758f23bd783
 ###
-DELETE http://{{url}}/api/persons/4
+DELETE http://{{url}}/api/persons/63c773ca998e2758f23bd783
 ###
 POST http://{{url}}/api/persons 
 Content-Type: application/json

@@ -42,9 +42,10 @@ app.get("/info", (request, response) => {
 });
 
 app.delete("/api/persons/:id", (request, response) => {
-  const newPersons = persons.filter(person => person.id !== Number(request.params.id));
-  persons = newPersons;
-  response.send(204);
+  Phonebook.findByIdAndDelete(request.params.id)
+    .then(result => {
+      response.status(204).end();
+    });
 });
 
 app.post("/api/persons", (request, response) => {
