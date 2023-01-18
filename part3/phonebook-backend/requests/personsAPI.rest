@@ -4,7 +4,7 @@ GET http://{{url}}/api/persons
 ###
 GET http://{{url}}/info
 ###
-GET http://{{url}}/api/persons/63c773ca998e2758f23bd783
+GET http://{{url}}/api/persons/63c8108a54d96b050194eb1d
 ###
 GET http://{{url}}/api/persons/fakeid
 ###
@@ -18,4 +18,13 @@ Content-Type: application/json
 {
   "name": "Keelan Tucker",
   "number": "555-595-4440"
+}
+### 
+PUT http://{{url}}/api/persons/63c8108a54d96b050194eb1d
+Content-Type: application/json 
+
+{
+  "name": "Keelan Tucker",
+  "number": "302-392-2002",
+  "id": "whatever"
 }

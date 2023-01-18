@@ -72,6 +72,21 @@ app.post("/api/persons", (request, response, next) => {
     .catch(err => next(err));
 });
 
+app.put("/api/persons/:id", (request, response, next) => {
+  const body = request.body;
+
+  const person = {
+    name: body.name,
+    number: body.number
+  };
+
+  Phonebook.findByIdAndUpdate(request.params.id, person, {new: true})
+    .then(person => {
+      response.json(person);
+    })
+    .catch(err => next(err));
+});
+
 app.use((error, req, res, next) => {
   console.log(error.message);
 
