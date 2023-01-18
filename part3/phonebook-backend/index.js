@@ -17,14 +17,15 @@ app.use(morgan(':method :url :status :res[content-length] - :response-time ms :b
 }));
 app.use(morgan('tiny', {skip: (request) => request.method === "POST"}));
 
-app.get("/api/persons", (request, response) => {
+app.get("/api/persons", (request, response, next) => {
   Phonebook.find({})
     .then((persons) => {
       response.json(persons);
-    });
+    })
+    .catch(err => next(err));
 });
 
-app.get("/api/persons/:id", (request, response) => {
+app.get("/api/persons/:id", (request, response, next) => {
   Phonebook.findById(request.params.id)
     .then(person => {
       if (person) {
@@ -32,7 +33,8 @@ app.get("/api/persons/:id", (request, response) => {
       } else {
         response.status(404).end();
       }
-    });
+    })
+    .catch(err => next(err));
 });
 
 app.get("/info", (request, response) => {
@@ -41,14 +43,15 @@ app.get("/info", (request, response) => {
     <p>${date}</p>`);
 });
 
-app.delete("/api/persons/:id", (request, response) => {
+app.delete("/api/persons/:id", (request, response, next) => {
   Phonebook.findByIdAndDelete(request.params.id)
     .then(result => {
       response.status(204).end();
-    });
+    })
+    .catch(err => next(err));
 });
 
-app.post("/api/persons", (request, response) => {
+app.post("/api/persons", (request, response, next) => {
   const body = request.body;
 
   if (!body.number) {
@@ -65,7 +68,17 @@ app.post("/api/persons", (request, response) => {
   person.save()
     .then(person => {
       response.json(person);
-    });
+    })
+    .catch(err => next(err));
+});
+
+app.use((error, req, res, next) => {
+  console.log(error.message);
+
+  if (error.name === 'CastError') {
+    return res.status(400).send({error: 'malformed id'});
+  }
+  next(error);
 });
 
 const PORT = process.env.PORT || 3001;
