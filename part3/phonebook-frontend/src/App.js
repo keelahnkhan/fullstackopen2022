@@ -47,17 +47,12 @@ const App = () => {
             createNotification(`Updated ${data.name}`, false);
           })
           .catch(error => {
-            console.log("Error on update", error);
+            console.log("Error on update", error.response.data.error);
             createNotification(`Information of ${newPerson.name} has already been removed from server`, true);
             const newPersons = persons.filter(item => item.id !== dupePerson.id);
             setPersons(newPersons);
           });
       }
-      return;
-    }
-
-    if (!(newPerson.name.trim() && newPerson.number.trim())) {
-      alert(`Both name and number are required`);
       return;
     }
 
@@ -67,6 +62,10 @@ const App = () => {
         setPersons(persons.concat(data));
         setNewPerson({name: '', number: '', id: ''});
         createNotification(`Added ${data.name}`, false);
+      })
+      .catch(error => {
+        console.log('Error on creation', error.response.data.error);
+        createNotification(`Could not create entry, ${error.response.data.error}`, true);
       });
   }
 

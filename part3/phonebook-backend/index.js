@@ -84,7 +84,7 @@ app.put("/api/persons/:id", (request, response, next) => {
     number: body.number
   };
 
-  Phonebook.findByIdAndUpdate(request.params.id, person, {new: true})
+  Phonebook.findByIdAndUpdate(request.params.id, person, {new: true, runValidators: true})
     .then(person => {
       response.json(person);
     })
@@ -96,6 +96,8 @@ app.use((error, req, res, next) => {
 
   if (error.name === 'CastError') {
     return res.status(400).send({error: 'malformed id'});
+  } else if (error.name === 'ValidationError') {
+    return res.status(400).json({error: error.message});
   }
   next(error);
 });

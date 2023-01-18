@@ -13,8 +13,15 @@ mongoose.connect(url)
   });
 
 const phonebookSchema = mongoose.Schema({
-  name: String,
-  number: String
+  name: {
+    type: String,
+    minLength: [3, 'Name must be 3 characters in length'],
+    required: [true, 'Name is a required field']
+  },
+  number: {
+    type: String,
+    required: [true, 'Number is a required field']
+  }
 });
 
 phonebookSchema.set('toJSON', {
