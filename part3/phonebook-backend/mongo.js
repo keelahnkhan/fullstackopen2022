@@ -1,3 +1,4 @@
+require('dotenv').config();
 const mongoose = require('mongoose');
 
 if (process.argv.length !== 5 && process.argv.length !== 3) {
@@ -8,7 +9,7 @@ if (process.argv.length !== 5 && process.argv.length !== 3) {
 const password = process.argv[2];
 const name = process.argv[3];
 const number = process.argv[4];
-const MONGO_URI = "mongodb+srv://masterdufel:PASSWORD@cluster0.koihrij.mongodb.net/phonebook?retryWrites=true&w=majority"
+const MONGO_URI = process.env.MONGO_URI;
 const uri = MONGO_URI.replace('PASSWORD', password);
 
 const phonebookSchema = mongoose.Schema({
