@@ -25,9 +25,14 @@ app.get("/api/persons", (request, response) => {
 });
 
 app.get("/api/persons/:id", (request, response) => {
-  const person = persons.find(person => person.id === Number(request.params.id));
-  
-  person ? response.json(person) : response.status(404).end();
+  Phonebook.findById(request.params.id)
+    .then(person => {
+      if (person) {
+        response.json(person);
+      } else {
+        response.status(404).end();
+      }
+    });
 });
 
 app.get("/info", (request, response) => {
@@ -43,24 +48,23 @@ app.delete("/api/persons/:id", (request, response) => {
 });
 
 app.post("/api/persons", (request, response) => {
-  const id = Math.floor(Math.random() * 9999999);
   const body = request.body;
 
   if (!body.number) {
     return response.status(400).json({error: "number missing"});
   } else if (!body.name) {
     return response.status(400).json({error: "name missing"});
-  } else if (persons.find(person => person.name === body.name)) {
-    return response.status(400).json({error: "name must be unique"});
   }
 
-  const person = {
-    id: id, 
+  const person = new Phonebook({
     name: body.name, 
     number: body.number
-  };
-  persons = persons.concat(person);
-  response.json(person);
+  });
+  
+  person.save()
+    .then(person => {
+      response.json(person);
+    });
 });
 
 const PORT = process.env.PORT || 3001;
