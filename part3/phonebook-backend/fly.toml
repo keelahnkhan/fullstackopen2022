@@ -7,6 +7,7 @@ processes = []
 
 [env]
   PORT = 8080
+  MONGO_URI = 'mongodb+srv://masterdufel:khyzosb2CXsCL79p@cluster0.koihrij.mongodb.net/phonebook?retryWrites=true&w=majority'
 
 [experimental]
   auto_rollback = true

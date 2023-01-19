@@ -69,7 +69,7 @@ app.post("/api/persons", (request, response, next) => {
     number: body.number
   });
 
-  Phonebook.find({name: body.name})
+  Phonebook.exists({name: body.name})
     .then(result => {
       if (result) {
         return response.status(400).json({error: "duplicate person found"});
