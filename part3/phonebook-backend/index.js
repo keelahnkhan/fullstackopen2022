@@ -58,20 +58,27 @@ app.delete("/api/persons/:id", (request, response, next) => {
 app.post("/api/persons", (request, response, next) => {
   const body = request.body;
 
-  if (!body.number) {
-    return response.status(400).json({error: "number missing"});
-  } else if (!body.name) {
-    return response.status(400).json({error: "name missing"});
-  }
+  // if (!body.number) {
+  //   return response.status(400).json({error: "number missing"});
+  // } else if (!body.name) {
+  //   return response.status(400).json({error: "name missing"});
+  // }
 
   const person = new Phonebook({
     name: body.name, 
     number: body.number
   });
-  
-  person.save()
-    .then(person => {
-      response.json(person);
+
+  Phonebook.find({name: body.name})
+    .then(result => {
+      if (result) {
+        return response.status(400).json({error: "duplicate person found"});
+      } else {
+        return person.save()
+          .then(person => {
+            response.json(person);
+          })
+      }
     })
     .catch(err => next(err));
 });
