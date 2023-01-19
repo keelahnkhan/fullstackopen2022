@@ -2,9 +2,9 @@ require('dotenv').config();
 const mongoose = require('mongoose');
 
 if (process.argv.length !== 5 && process.argv.length !== 3) {
-  console.log("Incorrect amount of arguments");
+  console.log('Incorrect amount of arguments');
   process.exit(1);
-} 
+}
 
 const password = process.argv[2];
 const name = process.argv[3];
@@ -42,10 +42,10 @@ if (process.argv.length === 5) {
       return Phonebook.find({});
     })
     .then(result => {
-      console.log(`phonebook:`);
+      console.log('phonebook:');
       result.forEach(person => {
         console.log(`${person.name} ${person.number}`);
-      })
+      });
       mongoose.connection.close();
     })
     .catch(error => {

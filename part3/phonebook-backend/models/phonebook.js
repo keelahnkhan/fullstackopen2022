@@ -6,7 +6,7 @@ console.log('connecting to ', url);
 
 mongoose.connect(url)
   .then(result => {
-    console.log('connected to mongoDB')
+    console.log('connected to mongoDB');
   })
   .catch((error) => {
     console.log('error connecting to mongodb: ', error.message);
@@ -25,7 +25,7 @@ const phonebookSchema = mongoose.Schema({
       validator: function(v) {
         return /\d{2,3}-\d+/.test(v);
       },
-      message: ({value}) => `${value} is not a valid number`
+      message: ({ value }) => `${value} is not a valid number`
     },
     required: [true, 'Number is a required field']
   }
@@ -34,7 +34,7 @@ const phonebookSchema = mongoose.Schema({
 phonebookSchema.set('toJSON', {
   transform: (document, returnObject) => {
     returnObject.id = returnObject._id.toString();
-    delete returnObject._id; 
+    delete returnObject._id;
     delete returnObject.__v;
   }
 });
