@@ -11,3 +11,13 @@ Content-Type: application/json
   "url": "marc-silver.com",
   "likes": 3
 }
+###
+POST {{url}}/api/blogs
+Content-Type: application/json
+
+{
+  "title": "Mongolian History",
+  "author": "Genghis Khan",
+  "url": "temujin-times.com",
+  "likes": 5555
+}
