@@ -44,3 +44,24 @@ describe('favorite blog', () => {
   });
 });
 
+describe('most blogs', () => {
+  
+  test('when multiple blogs, author with most blogs should be returned', () => {
+    expect(listHelper.mostBlogs(blogs)).toEqual({
+      author: "Robert C. Martin",
+      blogs: 3
+    });
+  });
+
+  test('when one blog, return the author of one blog', () => {
+    expect(listHelper.mostBlogs(blogsSingle)).toEqual({
+      author: "Michael Chan",
+      blogs: 1
+    });
+  });
+
+  test('when no blogs, empty object returned', () => {
+    expect(listHelper.mostBlogs([])).toEqual({});
+  })
+});
+
