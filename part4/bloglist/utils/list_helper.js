@@ -21,25 +21,44 @@ const favoriteBlog = (blogs) => {
 };
 
 const mostBlogs = (blogs) => {
+  if (blogs.length == 0) return {};
   const countBlog = (blog) => {
     return blog.author;
   };
-
-  if (blogs.length == 0) return {};
 
   blogCountsByAuthor = _.countBy(blogs, countBlog);
   const blogCountKey = _.keys(blogCountsByAuthor).reduce((acc, item) => 
     blogCountsByAuthor[acc] > blogCountsByAuthor[item] ? acc : item
   );
+
   return {
     author: blogCountKey,
     blogs: blogCountsByAuthor[blogCountKey]
   };
 };
 
+const mostLikes = (blogs) => {
+  if (blogs.length == 0) return {};
+
+  const blogCountsByAuthor = _.transform(blogs, (result, item) => {
+    const key = item.author.replace(/\./g,'')
+    _.set(result, key, (result[key] || 0) + item.likes);
+  }, {});
+  console.log(blogCountsByAuthor);
+
+  const blogCountKey = _.keys(blogCountsByAuthor).reduce((acc, item) => 
+    blogCountsByAuthor[acc] > blogCountsByAuthor[item] ? acc : item
+  );
+  return {
+    author: blogCountKey,
+    likes: blogCountsByAuthor[blogCountKey]
+  };
+}
+
 module.exports = {
   dummy, 
   totalLikes, 
   favoriteBlog,
-  mostBlogs
+  mostBlogs,
+  mostLikes
 };

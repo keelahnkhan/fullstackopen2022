@@ -65,3 +65,24 @@ describe('most blogs', () => {
   })
 });
 
+describe('most likes', () => {
+  
+  test('when multiple blogs, author with most likes should be returned', () => {
+    expect(listHelper.mostLikes(blogs)).toEqual({
+      author: "Edsger W Dijkstra",
+      likes: 17
+    });
+  });
+
+  test('when one blog, return the likes of one blog', () => {
+    expect(listHelper.mostLikes(blogsSingle)).toEqual({
+      author: "Michael Chan",
+      likes: 7
+    });
+  });
+
+  test('when no blogs, empty object returned', () => {
+    expect(listHelper.mostLikes([])).toEqual({});
+  })
+});
+
